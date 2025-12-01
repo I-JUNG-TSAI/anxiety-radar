@@ -980,15 +980,15 @@ export default function App() {
   const currentParentItem = newItem.parentId ? items.find(i => i.id === newItem.parentId) : null;
 
   return (
-    // 更新：外層容器樣式調整，移除手機版 padding
-    <div className={`min-h-screen flex justify-center sm:p-4 font-sans transition-colors duration-300 ${isDark ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
+    // 更新：使用 fixed inset-0 確保滿版，並防止 iOS overscroll 露出白色背景
+    <div className={`fixed inset-0 flex justify-center sm:p-4 font-sans transition-colors duration-300 overscroll-none ${isDark ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
       
       {/* 更新：傳遞新的關閉處理函式 */}
       {showIntro && <IntroModal onClose={handleCloseIntro} />}
 
       {/* 更新：主應用容器樣式調整，手機版滿版無圓角 */}
-      <div className="w-full max-w-md bg-white dark:bg-slate-900 h-[100dvh] sm:h-auto sm:min-h-[85vh] shadow-2xl rounded-none sm:rounded-[2rem] overflow-hidden flex flex-col relative border-0 sm:border border-slate-100 dark:border-slate-800 transition-colors duration-300">
-        <div className="flex-1 p-6 overflow-y-auto">
+      <div className="w-full max-w-md bg-white dark:bg-slate-900 h-full sm:h-auto sm:min-h-[85vh] shadow-2xl rounded-none sm:rounded-[2rem] overflow-hidden flex flex-col relative border-0 sm:border border-slate-100 dark:border-slate-800 transition-colors duration-300">
+        <div className="flex-1 p-6 overflow-y-auto overscroll-contain">
           {view === 'dashboard' && (
             <Dashboard 
               items={items} 
