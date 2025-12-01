@@ -903,13 +903,19 @@ export default function App() {
   
   const [newItem, setNewItem] = useState({ title: '', agency: 50, predictability: 50, external: 50, parentId: null });
 
-  // Effects to Save to LocalStorage
+  // Effects to Save to LocalStorage & Force Body Background
   useEffect(() => {
     localStorage.setItem('anchor-theme', JSON.stringify(isDark));
     if (isDark) {
       document.documentElement.classList.add('dark');
+      // 強制設定 body 背景色，解決手機版過度捲動出現白底問題
+      document.body.style.backgroundColor = '#020617'; // slate-950
+      document.documentElement.style.backgroundColor = '#020617';
     } else {
       document.documentElement.classList.remove('dark');
+      // 強制設定 body 背景色
+      document.body.style.backgroundColor = '#f8fafc'; // slate-50
+      document.documentElement.style.backgroundColor = '#f8fafc';
     }
   }, [isDark]);
 
@@ -980,8 +986,8 @@ export default function App() {
   const currentParentItem = newItem.parentId ? items.find(i => i.id === newItem.parentId) : null;
 
   return (
-    // 更新：使用 fixed inset-0 確保滿版，並防止 iOS overscroll 露出白色背景
-    <div className={`fixed inset-0 flex justify-center sm:p-4 font-sans transition-colors duration-300 overscroll-none ${isDark ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
+    // 更新：移除最外層 transition-colors 以避免初始閃爍
+    <div className={`fixed inset-0 flex justify-center sm:p-4 font-sans overscroll-none ${isDark ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
       
       {/* 更新：傳遞新的關閉處理函式 */}
       {showIntro && <IntroModal onClose={handleCloseIntro} />}
